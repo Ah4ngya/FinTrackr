@@ -1,0 +1,26 @@
+﻿@page
+@model FinancialTrackr.Pages.AdminLoginModel
+@{
+	ViewData["Title"] = "Admin's Login page";
+    <head>
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+    <body>
+            <div>
+                <form method="post">
+                    @Html.ValidationSummary()
+                    @Html.AntiForgeryToken()
+                    <label>Felhasználó név:</label>
+                    <input asp-for="Username" />
+
+                    <label>Jelszó:</label>
+                    <input asp-for="Password" type="password" />
+                    <button type="submit">Bejelentkezés</button>
+                </form>
+            </div>
+            <div>
+
+            </div>
+    </body>
+    
+}

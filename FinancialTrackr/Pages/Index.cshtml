@@ -1,0 +1,25 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Üdvözöljük FinanceR-nél</h1>
+        <div class="InfoContainer">
+            <div>
+                <label>Már van fiókja? Jelentkezzen be!</label>
+                <button><a asp-page="/Login" class="btn btn-primary">Bejelentkezés</a></button>
+                <label>Még nem regisztrált? Tegye meg itt!</label>
+                <button>
+                    <a asp-page="/RegPage" class="btn btn-success">Regisztráció</a>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+
+    <script src="~/js/site.js"></script>
+}

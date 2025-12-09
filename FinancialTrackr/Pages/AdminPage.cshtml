@@ -1,0 +1,160 @@
+﻿@page
+@model FinancialTrackr.Pages.AdminPageModel
+@{
+	ViewData["Title"] = "Admin page";
+
+}
+<head>
+	<link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+	<div>
+		<h1>Üdvözöljük újra @Model.FullName!</h1>
+        <div class="sidebar-left">
+        <a asp-page="/AdminDV">Mutasd a diagrammokat</a>
+            
+        </div>
+        <div class="maincontent">
+            @if (TempData["Warning"] != null)
+            {
+                <div class="alert alert-warning">@TempData["Warning"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            <h3>
+                Felhasználó módosítása:
+            </h3>
+            <form method="post" asp-page-handler="SelectUser">
+                <label>Hagyja üresen, hogy az összes felhasználót listázza</label>
+                <input asp-for="Username" type="text" />
+                <button type="submit">Felhasználó Kiválasztása</button>
+            </form>
+            
+                @if (Model.Users == null || Model.Users.Count == 0)
+                {
+                    <p>Nincsenek regisztrált felhasználók!</p>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Felhasználó Név:</th>
+                                <th>Felhasználó Email címe:</th>
+                                <th>Admin?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>
+                                        @user.Username 
+                                        Felhasználó Költségei:
+                                    <button class="deletion" data-username="@user.Username">Törlés</button>
+
+                                    </td>
+
+                                    <td>
+                                    @user.Email <button class="js-btn">Módosítás</button> 
+                                    </td>
+                                    
+                                    @if (user.IsAdmin == 1)
+                                    {
+                                    <td>
+                                        Igen 
+                                    </td>
+                                    }
+                                    else
+                                    {
+                                    <td>
+                                        Nem 
+                                    </td>
+                                    }
+
+                                </tr>
+                                @if (user.Expenses != null && user.Expenses.Any())
+                                {
+                                    <tr>
+                                        <td colspan="4">
+                                            <table class="table table-sm inner-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Kategória</th>
+                                                        <th>Összeg</th>
+                                                        <th>Dátum</th>
+                                                        <th>Fizetési mód</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var exp in user.Expenses)
+                                                    {
+                                                        <tr>
+                                                            <td>@exp.ExpenseType</td>
+                                                            <td>@exp.ExpenseValue Ft</td>
+                                                            <td>@exp.date.ToShortDateString()</td>
+                                                            <td>@exp.PaymentMethod</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="4"><em>Nincs rögzített kiadás</em></td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                
+            }
+        </div>
+	</div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Felhasználó szerkesztése</h2>
+            <form method="post" asp-page-handler="EditUserCredentials">
+                <input type="hidden" asp-for="Username" id="modalUsername" />
+
+                <label>Felhasználónév változtatása</label>
+                <input asp-for="NewUsername" id="modalNewUsername" type="text" />
+
+                <label>Email cím változtatása</label>
+                <input asp-for="NewEmail" id="modalNewEmail" type="text" />
+
+                <label>Admin jog (1 = igen, 0 = nem)</label>
+                <input asp-for="isUserAnAdmin" id="modalIsAdmin" type="number" min="0" max="1" />
+
+                <button type="submit">Változtatások mentése</button>
+            </form>
+        </div>
+    </div>
+    <div id="myModal2" class="modal2">
+        <div class="modal-content2">
+            <span class="close2">&times;</span>
+            <h2>Felhasználó szerkesztése</h2>
+            <form method="post" asp-page-handler="DeleteUser">
+                <h2>Biztos abban, hogy törölni szeretné a kiválasztott felhasználót? </h2>
+                <input type="hidden" asp-for="Username" id="deleteUsername" />
+                <button type="submit">Felhasználó törlése</button>
+            </form>
+        </div>
+    </div>
+</body>
+@section Scripts {
+    <script src="~/js/editor.js"></script>
+    <script src="~/js/deletor.js"></script>
+
+}

@@ -1,0 +1,28 @@
+﻿@page
+@model FinancialTrackr.Pages.LoginModel
+@{
+	ViewData["Title"] = "Login Page";
+}
+<div class="text-center">
+    <h1 class="display-4">Üdvözöljük FinanceR-nél</h1>
+    <div class="InfoContainer">
+        <div>
+            <form method="post">
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                <div class="InfoContainer">
+                    <div>
+                        <label>Felhasználó név:</label>
+                        <input asp-for="Username" />
+                        
+                        <label>Jelszó:</label>
+                        <input asp-for="Password" type="password" />
+                        
+                        <button type="submit">Bejelentkezés</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

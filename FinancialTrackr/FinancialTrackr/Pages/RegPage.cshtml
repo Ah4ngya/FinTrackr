@@ -1,0 +1,32 @@
+﻿@page
+@model FinancialTrackr.Pages.RegPageModel
+@{
+	ViewData["Title"] = "Registration Page";
+}
+<div class="text-center">
+    <h1 class="display-4">Üdvözöljük FinanceR-nél</h1>
+    <div class="InfoContainer">
+        <div>
+            <form method="post">
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken() 
+                <div class="InfoContainer">
+                    <div>
+                        <label>Név:</label>
+                        <input asp-for="Fullname" />
+                        <label>Felhasználó név:</label>
+                        <input asp-for="Username" />
+                        <label>E-mail cím:</label>
+                        <input asp-for="Email" type="email" />
+                        <label>Jelszó:</label>
+                        <input asp-for="Password" type="password" />
+                        <label>Jelszó újra:</label>
+                        <input asp-for="ConfPassword" type="password" />
+                        <button type="submit">Regisztrálás</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

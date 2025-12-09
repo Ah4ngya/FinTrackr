@@ -1,0 +1,190 @@
+﻿@page
+@model FinancialTrackr.Pages.UserpageModel
+@{
+	ViewData["Title"] = "User page";
+}
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">
+            @if (!string.IsNullOrEmpty(Model.FullName))
+            {
+                <h2>Szia!, @Model.FullName!</h2>
+            }
+            else
+            {
+                <h2>Üdvözlünk a FinanceR-nél!</h2>
+            }
+        </h1>
+    </div>
+
+    <div class="layout">
+        <div class="sidebar-left">
+            <form method="post" asp-page-handler="ExportXml" data-no-fade>
+                @if (Model.expenses == null || Model.expenses.Count == 0)
+                {
+                    <p>Önnek nincs regisztrált költsége</p>
+                }
+                else
+                {
+                    <button type="submit" class="export button">Költségek Exportálása Xml Fájlba</button>
+                }
+            </form>
+            <form method="post" asp-page-handler="SetMonthlyBudget">
+                <input asp-for="Budget" type="number" placeholder="Ide írja a havi költségvetését" />
+                <input asp-for="Month" type="date" value="@(Model.date == default ? Model.CurrentMonth.ToString("yyyy-MM-dd") : Model.date.ToString("yyyy-MM-dd"))" />
+                <button type="submit">Rögzítés</button>
+            </form>
+            <label>
+                @if (!string.IsNullOrEmpty(Model.BudgetForTheMonth.ToString()))
+                {
+                    <h2>Havi Költségvetésed: @Model.BudgetForTheMonth </h2>
+                }
+                else
+                {
+                    <h2>Még nincs beállított havi költségvetésed.</h2>
+                }
+            </label>
+            <label>Új kategória hozzáadása</label>
+            <form method="post" asp-page-handler="AddNewCategory">
+                <input asp-for="newCategory" type="text" />
+                <button type="submit">Hozzáadás</button>
+            </form>
+            <label>Új Fizető Eszköz Hozzáadása</label>
+            <form method="post" asp-page-handler="AddNewPaymentMethod">
+                <input asp-for="newPaymentMethod" type="text" />
+                <button type="submit">Hozzáadás</button>
+            </form>
+        </div>
+        <div class="maincontent">
+            @if (TempData["Warning"] != null)
+            {
+                <div class="alert alert-warning">@TempData["Warning"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            <label>Új Kiadás rögzítése</label>
+            <form method="post">
+                <input asp-for="ExpenseValue" type="number" placeholder="Ide írja a kívánt összeget" />
+                <select asp-for="ExpenseType">
+                    @foreach (var cat in Model.UserCategories)
+                    {
+                        <option value="@cat.Name">@cat.Name</option>
+                    }
+                </select>
+                <select asp-for="PaymentMethod" id="PaymentMethods">
+                    <option value="Készpénz">Készpénz</option>
+                    <option value="Kártya">Kártya</option>
+                    <option value="Crypto">Crypto Valuta</option>
+                    @foreach (var method in Model.paymentMethods)
+                    {
+                        <option value="@method.Name">@method.Name</option>
+                    }
+                </select>
+                <input asp-for="date" type="date" value="@(Model.date == default ? Model.CurrentMonth.ToString("yyyy-MM-dd") : Model.date.ToString("yyyy-MM-dd"))" />
+
+                <button type="submit" class="AddNewExpenseBtn">Kiadás rögzítése</button>
+            </form>
+            @if (Model.expenses == null || Model.expenses.Count == 0)
+            {
+                <p>Önnek nincs regisztrált költsége</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Payment Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var expense in Model.expenses)
+                        {
+                            <tr>
+                                <td>
+                                    @expense.ExpenseType
+                                </td>
+                                <td>
+                                    @expense.ExpenseValue.ToString("C")
+                                </td>
+                                <td>
+                                    @expense.date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @expense.PaymentMethod
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+        <div class="sidebar-right">
+            <form method="post" asp-page-handler="SetCategoryBudget">
+                <select asp-for="SelectedCategoryId">
+                    @foreach (var cat in Model.UserCategories)
+                    {
+                        <option value="@cat.CategoryId">@cat.Name</option>
+                    }
+                </select>
+                <input asp-for="BudgetLimit" type="number" placeholder="Kategória limit" />
+                <button type="submit">Limit beállítása</button>
+            </form>
+            <table class="currency-table">
+                <thead>
+                    <tr>
+                        <th>Pénznem</th>
+                        <th>Árfolyam</th>
+                    </tr>
+                </thead>
+                <tbody class="js-table">
+                    @foreach (var rate in Model.ExchangeRates)
+                    {
+                        decimal oldRate = Model.PreviousRates.ContainsKey(rate.Key)
+                        ? Model.PreviousRates[rate.Key]
+                        : rate.Value;
+                        bool wentUp = rate.Value > oldRate;
+                        bool wentDown = rate.Value < oldRate;
+
+                        <tr class="currency-row @(wentUp ? "rate-up" : wentDown ? "rate-down" : "")">
+                            <td>@rate.Key</td>
+                            <td>
+                                @rate.Value
+                                @if (wentUp)
+                                {
+                                    <span class="arrow up">▲</span>
+                                }
+                                else if (wentDown)
+                                {
+                                    <span class="arrow down">▼</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
+        </div>
+
+    </div>
+</body>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+       
+       
+
+       
+        

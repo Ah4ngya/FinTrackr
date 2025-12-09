@@ -1,0 +1,49 @@
+﻿@page
+@model FinancialTrackr.Pages.AdminDVModel
+@{
+	ViewData["Title"] = "Admin Data Visualizer";
+}
+<body>
+    <div class="chart-layout">
+        <form method="get">
+            <label for="UserName">Válassz Felhasználót:</label>
+            <input asp-for="UserName" type="text"/>
+            <label for="monthSelect">Válassz hónapot:</label>
+            <input type="month" id="monthSelect" name="SelectedMonth"
+                   value="@(!string.IsNullOrEmpty(Model.selectedMonth)
+                                                      ? Model.selectedMonth
+                                                      : DateTime.Now.ToString("yyyy-MM"))" />
+            <button type="submit" formaction="?handler=SelectUser">Megtekintés</button>
+        </form>
+
+        @if (Model.Expenses == null || Model.Expenses.Count == 0)
+        {
+            <div class="empty-state">
+                <p>Nincsenek elérhető költségadatok a diagramok megjelenítéséhez.</p>
+            </div>
+        }
+        else
+        {
+            <form method="post" asp-page-handler="ExportXml">
+                <button type="submit" class="export-btn"> Exportálás XML formátumban</button>
+            </form>
+
+            <h2>Összköltség: <span id="totalValue">@Model.Expenses.Sum(e => e.ExpenseValue)</span> Ft</h2>
+
+
+            <div class="charts">
+                <canvas id="CategoryChart"></canvas>
+                <canvas id="DateChart"></canvas>
+            </div>
+        }
+    </div>
+</body>
+@section Scripts {
+    <script>
+        window.expenseData = @Html.Raw(Model.ExpenseJson);
+
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/AdminCharts.js"></script>
+}
