@@ -176,8 +176,17 @@ namespace FinancialTrackr.Pages
                 PaymentMethod = PaymentMethod,
                 date = date
             };
-            _context.Expenses.Add(expense);
-            _context.SaveChanges();
+            if (expense.ExpenseValue > 0)
+            {
+                _context.Expenses.Add(expense);
+                _context.SaveChanges();
+            }
+            else
+            {
+                TempData["Warning"] = "Az új kiadás értéke nem lehet nulla!";
+                return RedirectToPage();
+            }
+            
 
             var currentMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
             double totalSpentThisMonth = _context.Expenses
