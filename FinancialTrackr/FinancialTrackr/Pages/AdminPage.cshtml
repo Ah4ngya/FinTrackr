@@ -57,7 +57,12 @@
                                     </td>
 
                                     <td>
-                                    @user.Email <button class="js-btn">Módosítás</button> 
+                                        @user.Email <button class="js-btn"
+                                                            data-username="@user.Username"
+                                                            data-email="@user.Email"
+                                                            data-admin="@user.IsAdmin">
+                                            Módosítás
+                                        </button>
                                     </td>
                                     
                                     @if (user.IsAdmin == 1)

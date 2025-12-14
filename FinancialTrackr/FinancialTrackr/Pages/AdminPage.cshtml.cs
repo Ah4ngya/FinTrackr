@@ -27,6 +27,7 @@ namespace FinancialTrackr.Pages
         public string NewEmail { get; set; }
         [BindProperty]
         public string ChartDataJson { get; set; } = "{}";
+        [BindProperty]
 
         public int isUserAnAdmin { get; set; }
         public List<User> Users { get; set; } = new();
@@ -134,49 +135,67 @@ namespace FinancialTrackr.Pages
             if (userId == null)
                 return RedirectToPage("/Login");
 
-            var currentUser = _context.Users.FirstOrDefault(u => u.Id == userId);
-            if (currentUser == null || currentUser.IsAdmin == 0)
-            {
-                HttpContext.Session.Clear();
+            var admin = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (admin == null || admin.IsAdmin == 0)
                 return RedirectToPage("/Login");
+
+            if (string.IsNullOrWhiteSpace(Username))
+            {
+                TempData["Error"] = "Nincs kiválasztott felhasználó.";
+                return RedirectToPage();
             }
 
             var editedUser = _context.Users.FirstOrDefault(u => u.Username == Username);
-            if (editedUser != null)
+            if (editedUser == null)
             {
-                editedUser.Username = NewUsername;
-                editedUser.Email = NewEmail;
-                editedUser.IsAdmin = isUserAnAdmin;
-                _context.SaveChanges();
-                TempData["Success"] = "Felhasználó adatai frissítve!";
-
+                TempData["Error"] = "Felhasználó nem található.";
+                return RedirectToPage();
             }
 
+            if (!string.IsNullOrWhiteSpace(NewUsername))
+                editedUser.Username = NewUsername;
+
+            if (!string.IsNullOrWhiteSpace(NewEmail))
+                editedUser.Email = NewEmail;
+
+            editedUser.IsAdmin = isUserAnAdmin;
+
+            _context.SaveChanges();
+
+            TempData["Success"] = "Felhasználó adatai frissítve!";
             return RedirectToPage();
         }
+
         public IActionResult OnPostDeleteUser()
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
             if (userId == null)
                 return RedirectToPage("/Login");
 
-            var currentUser = _context.Users.FirstOrDefault(u => u.Id == userId);
-            if (currentUser == null || currentUser.IsAdmin == 0)
-            {
-                HttpContext.Session.Clear();
+            var admin = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if (admin == null || admin.IsAdmin == 0)
                 return RedirectToPage("/Login");
-            }
-            var DeletedUser = _context.Users.FirstOrDefault(u => u.Username == Username);
-            if (DeletedUser != null)
+
+            if (string.IsNullOrWhiteSpace(Username))
             {
-                _context.Users.Remove(DeletedUser);
-                _context.SaveChanges();
-                TempData["Success"] = "Felhasználó sikeresn törölve.";
-
+                TempData["Error"] = "Nincs kiválasztott felhasználó.";
+                return RedirectToPage();
             }
 
+            var deletedUser = _context.Users.FirstOrDefault(u => u.Username == Username);
+            if (deletedUser == null)
+            {
+                TempData["Error"] = "Felhasználó nem található.";
+                return RedirectToPage();
+            }
+
+            _context.Users.Remove(deletedUser);
+            _context.SaveChanges();
+
+            TempData["Success"] = "Felhasználó sikeresen törölve.";
             return RedirectToPage();
         }
+
         #endregion
     }
 }
