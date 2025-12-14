@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTrackr", "FinancialTrackr\FinancialTrackr.csproj", "{C3357DF8-A09B-47EE-898D-0342A89DBFA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTrackr.Tests", "FinancialTrackr.Tests\FinancialTrackr.Tests.csproj", "{6A257ADE-A4D2-4535-ACB0-450F69DC85E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C3357DF8-A09B-47EE-898D-0342A89DBFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3357DF8-A09B-47EE-898D-0342A89DBFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3357DF8-A09B-47EE-898D-0342A89DBFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A257ADE-A4D2-4535-ACB0-450F69DC85E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A257ADE-A4D2-4535-ACB0-450F69DC85E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A257ADE-A4D2-4535-ACB0-450F69DC85E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A257ADE-A4D2-4535-ACB0-450F69DC85E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

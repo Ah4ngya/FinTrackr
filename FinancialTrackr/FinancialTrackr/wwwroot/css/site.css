@@ -178,7 +178,7 @@ input, select {
  CHART AREA (Admin DV)
 **********************************/
 .chart-layout {
-    max-width: 1400px;
+    max-width: 1100px;
     margin: 3rem auto;
     display: flex;
     flex-direction: column;
@@ -192,6 +192,7 @@ input, select {
     gap: 2rem;
     width: 100%;
     grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    
 }
 
 canvas {
@@ -202,6 +203,7 @@ canvas {
     width: 100% !important;
     box-shadow: 0 15px 40px rgba(0,0,0,.45);
     transition: .25s;
+
 }
 
     canvas:hover {
@@ -214,5 +216,328 @@ canvas {
 @media(max-width: 1200px) {
     .layout {
         grid-template-columns: 1fr;
+    }
+}
+/**********************************
+ MODAL / OVERLAY SYSTEM
+ (Fix for bottom sections)
+**********************************/
+
+.modal-overlay {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75); 
+    backdrop-filter: blur(4px); 
+    z-index: 9999; 
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+ 
+    .modal-overlay > div,
+    .modal-card {
+        background: #111827; 
+        padding: 2rem;
+        width: 100%;
+        max-width: 500px; 
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        position: relative;
+        animation: modalFadeIn 0.3s ease;
+    }
+
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.modal-overlay .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: #94A3B8;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: auto; 
+    padding: 0;
+}
+
+    .modal-overlay .close-btn:hover {
+        color: #ef4444; 
+        transform: none;
+        box-shadow: none;
+    }
+
+
+
+/**********************************
+  LANDING PAGE / HERO SECTION
+**********************************/
+
+/* 1. The Main Wrapper */
+.hero-section {
+    position: relative;
+    width: 100%;
+    /* Subtle gradient background like the reference */
+    background: radial-gradient(circle at 20% 50%, #1e293b 0%, #0B1221 50%);
+    padding: 4rem 1rem;
+    overflow: hidden;
+}
+
+/* 2. Grid Container (2 Columns) */
+.hero-container {
+    max-width: 1350px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Split 50/50 */
+    gap: 3rem;
+    align-items: center;
+}
+
+/* 3. Typography */
+.hero-title {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+    .hero-title .highlight {
+        color: #38BDF8; /* Your brand blue */
+    }
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    color: #94A3B8;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 90%;
+}
+
+/* 4. The Two Big Buttons */
+.hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+}
+
+.hero-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+    /* Icons inside buttons */
+    .hero-btn .icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+    }
+
+    .hero-btn .btn-text {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+    }
+
+        .hero-btn .btn-text span {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .hero-btn .btn-text strong {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+/* PRIMARY BUTTON (Login) - Bright Blue */
+.primary-btn {
+    background: #38BDF8;
+    color: #0F172A;
+}
+
+    .primary-btn:hover {
+        background: #7DD3FC;
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    }
+
+/* SECONDARY BUTTON (Register) - Dark/Outline */
+.secondary-btn {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #E2E8F0;
+}
+
+    .secondary-btn:hover {
+        border-color: #38BDF8;
+        background: rgba(30, 41, 59, 0.8);
+        transform: translateY(-2px);
+    }
+
+/* Ribbon/Badge on the register button */
+.badge-ribbon {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #FACC15; /* Yellow/Gold */
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transform: rotate(15deg);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* 5. The Image Section */
+.hero-visual {
+    position: relative;
+    perspective: 1000px; /* Adds 3D depth */
+}
+
+.app-screenshot {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    /* The glossy shadow effect */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    /* Optional: Slight tilt for modern feel */
+    transform: rotateY(-5deg) rotateX(2deg);
+    transition: transform 0.5s ease;
+}
+
+.hero-visual:hover .app-screenshot {
+    transform: rotateY(0) rotateX(0); /* Straightens on hover */
+}
+
+/* RESPONSIVE: Stack on mobile */
+@media (max-width: 992px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-buttons {
+        margin: 0 auto;
+    }
+
+    .hero-btn .btn-text {
+        text-align: center; /* fix alignment for centered layout */
+        align-items: center; /* Center items in flex column */
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .app-screenshot {
+        transform: none;
+        margin-top: 2rem;
+    }
+}
+
+
+.InfoContainer {
+    max-width: 500px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column; 
+    gap: 1.2rem; 
+    padding: 2rem;
+    background: #111827;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+
+    .InfoContainer label {
+        display: block;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        color: #94A3B8; 
+    }
+
+    .InfoContainer a.btn {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        width: 100%;
+    }
+
+.alert {
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px; 
+    border: 1px solid transparent;
+    font-weight: 500;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(5px); 
+    animation: slideDown 0.4s ease-out;
+}
+
+
+.alert-success {
+    background: rgba(16, 185, 129, 0.15); 
+    border-color: rgba(16, 185, 129, 0.3);
+    color: #34D399; 
+}
+
+
+.alert-danger {
+    background: rgba(239, 68, 68, 0.15); 
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #F87171; 
+}
+
+
+.alert-warning {
+    background: rgba(245, 158, 11, 0.15); 
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #FBBF24; /
+}
+
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

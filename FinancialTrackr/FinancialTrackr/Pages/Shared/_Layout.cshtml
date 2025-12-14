@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar">
             <div class="nav-container">
-                <div class="nav-logo">FinanceR</div>
+                <div class="nav-logo"><a asp-page="/Logout">FinanceR</a></div>
                 
                 <ul class="nav-links">
                     @{
@@ -22,13 +22,11 @@
                     }
                     @if (userId == null)
                     {
-                        <!-- Logged out: show only Register & Login -->
                         <li><a asp-page="/Login">Bejelentkezés</a></li>
                         <li><a asp-page="/RegPage">Regisztráció</a></li>
                     }
                     else
                     {
-                        <!-- Logged in: show role-based menu -->
 
                         @if (isAdmin)
                         {

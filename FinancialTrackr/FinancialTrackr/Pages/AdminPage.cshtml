@@ -8,12 +8,10 @@
 	<link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-	<div>
+	<div class="layout">
 		<h1>Üdvözöljük újra @Model.FullName!</h1>
         <div class="sidebar-left">
-        <a asp-page="/AdminDV">Mutasd a diagrammokat</a>
-            
-        </div>
+        
         <div class="maincontent">
             @if (TempData["Warning"] != null)
             {
@@ -23,10 +21,7 @@
             {
                 <div class="alert alert-danger">@TempData["Error"]</div>
             }
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success">@TempData["Success"]</div>
-            }
+           
             <h3>
                 Felhasználó módosítása:
             </h3>
@@ -121,8 +116,10 @@
             }
         </div>
 	</div>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
+
+
+    <div id="myModal" class="modal-overlay">
+        <div class="modal-card">
             <span class="close">&times;</span>
             <h2>Felhasználó szerkesztése</h2>
             <form method="post" asp-page-handler="EditUserCredentials">
@@ -141,8 +138,8 @@
             </form>
         </div>
     </div>
-    <div id="myModal2" class="modal2">
-        <div class="modal-content2">
+    <div id="myModal2" class="modal-overlay">
+        <div class="modal-card">
             <span class="close2">&times;</span>
             <h2>Felhasználó szerkesztése</h2>
             <form method="post" asp-page-handler="DeleteUser">

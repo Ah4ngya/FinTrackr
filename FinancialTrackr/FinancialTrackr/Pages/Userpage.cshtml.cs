@@ -338,42 +338,43 @@ namespace FinancialTrackr.Pages
               .Select(c => c.Name)
               .ToList();
 
-            foreach (var cat in existingCategories)
+            if (newCategory != null)
             {
-                int distance = LevenshteinDistance(cat.ToLower(), newCategory.ToLower());
-                if (distance <= 2)
+                foreach (var cat in existingCategories)
                 {
-                    TempData["Warning"] = $"Figyelem! A(z) '{newCategory}' hasonlít a meglévõ '{cat}' kategóriához.";
-                    return RedirectToPage();
-                }
-            }
-            if (newCategory == null)
-            {
-                 
-                TempData["Error"] = "Kategória hozzáadásához kötelezõ nevet adni!.";
-
-                
-            }
-            if (category == null)
-            {
-                var newUserCategory = new Category
-                {
-                    UserId = userId.Value,
-                    Name = newCategory,
-                    BudgetLimit = Budget,
-
-                };
-                if (newCategory != null)
-                {
-                    _context.Categories.Add(newUserCategory);
-                    _context.SaveChanges();
-                    TempData["Success"] = "Új kategória Sikeresen hozzáadva!";
-                }
-               
-
-            }
-
+                    int distance = LevenshteinDistance(cat.ToLower(), newCategory.ToLower());
+                    if (distance <= 2)
+                    {
+                        TempData["Warning"] = $"Figyelem! A(z) '{newCategory}' hasonlít a meglévõ '{cat}' kategóriához.";
                         return RedirectToPage();
+                    }
+                }
+
+                if (category == null)
+                {
+                    var newUserCategory = new Category
+                    {
+                        UserId = userId.Value,
+                        Name = newCategory,
+                        BudgetLimit = Budget,
+
+                    };
+                    if (newCategory != null)
+                    {
+                        _context.Categories.Add(newUserCategory);
+                        _context.SaveChanges();
+                        TempData["Success"] = "Új kategória Sikeresen hozzáadva!";
+                    }
+
+
+                }
+            }
+            else
+            {
+                TempData["Warning"] = "A kategória nem lehet üres";
+            }
+
+                return RedirectToPage();
 
         }
         #endregion
@@ -402,35 +403,30 @@ namespace FinancialTrackr.Pages
 
             var paymentmethod = _context.Methods.FirstOrDefault(u => u.UserId == userId && u.Name == newPaymentMethod);
 
-            if (newPaymentMethod == null)
+            if (newPaymentMethod != null)
             {
-                
-               TempData["Error"] = "Az új fizetõeszköz felvételéhez kötelezõ megadni egy nevet!";
-
-                
-            }
-
-            if(paymentmethod == null)
-            {
-                var newUserPayment = new PaymentMethods
+                if (paymentmethod == null)
                 {
-                   
-                    UserId = userId.Value,
-                    Name = newPaymentMethod,
+                    var newUserPayment = new PaymentMethods
+                    {
 
-                };
-                if (newUserPayment != null) {
+                        UserId = userId.Value,
+                        Name = newPaymentMethod,
+
+                    };
+
                     _context.Methods.Add(newUserPayment);
                     _context.SaveChanges();
-                    
+
                     TempData["Success"] = "Új Fizetõeszköz Sikeresen hozzáadva!";
 
                 }
-                
-
+            }
+            else
+            {
+                TempData["Error"] = "Az új fizetõeszköz felvételéhez kötelezõ megadni egy nevet!";
             }
             return RedirectToPage();
-
         }
         #endregion
 

@@ -3,23 +3,53 @@
 @{
     ViewData["Title"] = "Home page";
 }
-<body>
-    <div class="text-center">
-        <h1 class="display-4">Üdvözöljük FinanceR-nél</h1>
-        <div class="InfoContainer">
-            <div>
-                <label>Már van fiókja? Jelentkezzen be!</label>
-                <button><a asp-page="/Login" class="btn btn-primary">Bejelentkezés</a></button>
-                <label>Még nem regisztrált? Tegye meg itt!</label>
-                <button>
-                    <a asp-page="/RegPage" class="btn btn-success">Regisztráció</a>
-                </button>
+
+<section class="hero-section">
+    <div class="hero-container">
+
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Technológia a <span class="highlight">Pénzügyi</span><br>
+                Sikerért
+            </h1>
+            <p class="hero-subtitle">
+                A legjobb elemző eszközök kezdőknek és haladóknak egyaránt.
+                Kövesse kiadásait és bevételeit egy helyen a FinanceR segítségével.
+            </p>
+
+            <div class="hero-buttons">
+                <a asp-page="/Login" class="hero-btn primary-btn">
+                    <div class="icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" /><polyline points="10 17 15 12 10 7" /><line x1="15" x2="3" y1="12" y2="12" /></svg>
+                    </div>
+                    <div class="btn-text">
+                        <span>Már van fiókja?</span>
+                        <strong>Bejelentkezés</strong>
+                    </div>
+                </a>
+
+                <a asp-page="/RegPage" class="hero-btn secondary-btn">
+                    <div class="icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="8.5" cy="7" r="4" /><line x1="20" x2="20" y1="8" y2="14" /><line x1="23" x2="17" y1="11" y2="11" /></svg>
+                    </div>
+                    <div class="btn-text">
+                        <span>Még nem regisztrált?</span>
+                        <strong>Regisztráció</strong>
+                    </div>
+                    <div class="badge-ribbon">Ingyenes</div>
+                </a>
             </div>
         </div>
+
+        <div class="hero-visual">
+            <div class="image-wrapper">
+                <img src="images/hero.png" alt="App Screenshot" class="app-screenshot" />
+            </div>
+        </div>
+
     </div>
-</body>
+</section>
 
 @section Scripts {
-
     <script src="~/js/site.js"></script>
 }

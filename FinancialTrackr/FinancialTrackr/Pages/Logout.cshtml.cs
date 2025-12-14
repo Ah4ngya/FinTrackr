@@ -8,7 +8,7 @@ namespace FinancialTrackr.Pages
         public IActionResult OnGet()
         {
             HttpContext.Session.Clear();
-            return RedirectToPage("/Login");
+            return RedirectToPage("/Index");
         }
     }
 }

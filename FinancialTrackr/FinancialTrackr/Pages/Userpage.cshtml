@@ -8,16 +8,7 @@
 </head>
 <body>
     <div class="text-center">
-        <h1 class="display-4">
-            @if (!string.IsNullOrEmpty(Model.FullName))
-            {
-                <h2>Szia!, @Model.FullName!</h2>
-            }
-            else
-            {
-                <h2>Üdvözlünk a FinanceR-nél!</h2>
-            }
-        </h1>
+        
     </div>
 
     <div class="layout">
@@ -25,18 +16,14 @@
             <form method="post" asp-page-handler="ExportXml" data-no-fade>
                 @if (Model.expenses == null || Model.expenses.Count == 0)
                 {
-                    <p>Önnek nincs regisztrált költsége</p>
+                    <p></p>
                 }
                 else
                 {
                     <button type="submit" class="export button">Költségek Exportálása Xml Fájlba</button>
                 }
             </form>
-            <form method="post" asp-page-handler="SetMonthlyBudget">
-                <input asp-for="Budget" type="number" placeholder="Ide írja a havi költségvetését" />
-                <input asp-for="Month" type="date" value="@(Model.date == default ? Model.CurrentMonth.ToString("yyyy-MM-dd") : Model.date.ToString("yyyy-MM-dd"))" />
-                <button type="submit">Rögzítés</button>
-            </form>
+
             <label>
                 @if (!string.IsNullOrEmpty(Model.BudgetForTheMonth.ToString()))
                 {
@@ -47,6 +34,13 @@
                     <h2>Még nincs beállított havi költségvetésed.</h2>
                 }
             </label>
+
+            <form method="post" asp-page-handler="SetMonthlyBudget">
+                <input asp-for="Budget" type="number" placeholder="Ide írja a havi költségvetését" />
+                <input asp-for="Month" type="date" value="@(Model.date == default ? Model.CurrentMonth.ToString("yyyy-MM-dd") : Model.date.ToString("yyyy-MM-dd"))" />
+                <button type="submit">Rögzítés</button>
+            </form>
+           
             <label>Új kategória hozzáadása</label>
             <form method="post" asp-page-handler="AddNewCategory">
                 <input asp-for="newCategory" type="text" />

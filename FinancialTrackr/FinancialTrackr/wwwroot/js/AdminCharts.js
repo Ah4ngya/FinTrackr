@@ -4,7 +4,6 @@
         return;
     }
 
-    // --- Get user and month info from hidden fields or URL ---
     const userNameInput = document.getElementById("UserName");
     const monthPicker = document.getElementById("selectedMonth");
 
@@ -13,7 +12,6 @@
 
     const allExpenses = window.expenseData;
 
-    // --- Filter by selected month (if any) ---
     let filteredExpenses = allExpenses;
 
     if (selectedMonth) {
@@ -29,14 +27,12 @@
         return;
     }
 
-    // --- Calculate category totals ---
     const categoryTotals = {};
     filteredExpenses.forEach(e => {
         const cat = e.expenseType || "Ismeretlen";
         categoryTotals[cat] = (categoryTotals[cat] || 0) + e.expenseValue;
     });
 
-    // --- PIE CHART: by category ---
     const catCanvas = document.getElementById("CategoryChart");
     if (catCanvas) {
         new Chart(catCanvas, {
@@ -59,7 +55,6 @@
         });
     }
 
-    // --- BAR CHART: by date ---
     const dateTotals = {};
     filteredExpenses.forEach(e => {
         const d = new Date(e.date).toLocaleDateString('hu-HU', {
@@ -95,7 +90,6 @@
         });
     }
 
-    // --- Animate total value ---
     const totalElem = document.getElementById("totalValue");
     if (totalElem) {
         const totalValue = filteredExpenses.reduce((sum, e) => sum + e.expenseValue, 0);
